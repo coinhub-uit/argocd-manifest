@@ -1,6 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ]
+  "extends": ["config:recommended", ":semanticCommits"],
+  "automergeType": "branch",
+  "automerge": true,
+  "packageRules": [
+    {
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["minor", "patch", "pin"]
+    }
+  ],
+  "kubernetes": {
+    "enabled": true
+  },
+  "kustomize": {
+    "enabled": true
+  },
+  "argocd": {
+    "enabled": true,
+    "managerFilePatterns": [
+      "/apps/app-of-apps/.+\\.ya?ml$/",
+      "/apps/supabase/chart/helm.ya?ml$/"
+    ]
+  }
 }

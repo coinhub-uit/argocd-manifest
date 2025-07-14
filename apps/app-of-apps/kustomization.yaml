@@ -5,5 +5,5 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-  - ./apps/supabase.yaml
-  - ./app/server.yaml
+  - ./base/supabase.yaml
+  - ./base/server.yaml

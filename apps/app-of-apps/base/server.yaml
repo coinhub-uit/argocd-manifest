@@ -5,7 +5,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/coinhub-uit/server.git
+    repoURL: https://github.com/coinhub-uit/argocd-manifest.git
     path: apps/server
   destination:
     namespace: coinhub-server

@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.2-standalone-strict/configmap.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map
+data:
+  # FIXME: Later
+  API_SERVER_URL: https://coinhub-server.kevinnitrohome.duckdns.org
+  # FIXME: Later
+  DB_HOST:
+  NODE_ENV: development
+  OPENAI_MODEL: "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+  PORT: "3001"
+  UPLOAD_PATH: assets/uploads
+  VNPAY_HOST: https://sandbox.vnpayment.vn

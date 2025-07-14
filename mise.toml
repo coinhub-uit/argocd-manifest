@@ -1,0 +1,3 @@
+[tools]
+argocd = "3.0.11"
+kubectl = "1.33.2"

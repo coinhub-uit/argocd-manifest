@@ -1,0 +1,7 @@
+secret:
+  jwt:
+    secretRef: secret
+  db:
+    secretRef: secret-db
+  smtp:
+    secretRef: secret-smtp

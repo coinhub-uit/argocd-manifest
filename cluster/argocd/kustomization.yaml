@@ -1,0 +1,12 @@
+# yaml-language-server: schema=https://www.schemastore.org/kustomization.json
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+resources:
+  - base/namespace.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/ha/install.yaml
+
+images:
+  - name: quay.io/argoproj/argocd
+    newTag: v3.0.11

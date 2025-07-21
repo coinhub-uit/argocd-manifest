@@ -17,8 +17,7 @@ default:
 
 init pod=`just pod`:
   #!/usr/bin/env bash
-  initialized=$({{k}} exec {{pod}} -- vault status -format=json || true | jq -r '.initialized')
-  if [[ $initialized != 'true' ]]; then
+  if "$({{k}} exec {{pod}} -- vault status -format=json || true | jq -r '.initialized')" = "true"; then
     {{k}} exec {{pod}} -- vault operator init -format=json > ../../secrets/vault.json
   fi
 
@@ -29,7 +28,7 @@ unseal pod=`just pod`:
   #!/usr/bin/env bash
   set -euo pipefail
 
-  if ! {{k}} exec {{pod}} -- vault status -format=json | jq '.sealed' >/dev/null; then
+  if ! "$({{k}} exec {{pod}} -- vault status -format=json 2>/dev/null || true | jq -r '.sealed')" = "true"; then
     echo 'Vault is unsealed already'
     exit
   fi

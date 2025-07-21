@@ -1,0 +1,7 @@
+k := "kubectl"
+
+default:
+  @just --list
+
+setup:
+  kubectl kustomize --enable-helm ./ | kubectl apply -f -

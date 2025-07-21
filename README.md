@@ -23,9 +23,22 @@
 
 ---
 
+## Docs
+
+### Requirements
+
+- Cluster
+- `kubectl`
+- `helm`
+- `argocd` (Optional)
+
 ### Setup
 
 1. Setup argocd if not yet:
    ```sh
-   kubectl apply -k ./cluster/argocd
+   kubectl apply -k ./cluster/argocd/
+   ```
+2. Setup vault if not yet:
+   ```sh
+   kubectl apply -k ./cluster/vault/
    ```

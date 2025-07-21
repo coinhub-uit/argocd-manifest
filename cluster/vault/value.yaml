@@ -1,0 +1,3 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/hashicorp/vault-helm/refs/heads/main/values.schema.json
+ui:
+  enabled: true

@@ -17,7 +17,7 @@ default:
 
 init pod=`just pod`:
   #!/usr/bin/env bash
-  if "$({{k}} exec {{pod}} -- vault status -format=json || true | jq -r '.initialized')" = "true"; then
+  if {{k}} exec {{pod}} -- vault status -format=json | jq '.initialized'; then
     {{k}} exec {{pod}} -- vault operator init -format=json > ../../secrets/vault.json
   fi
 
@@ -28,7 +28,7 @@ unseal pod=`just pod`:
   #!/usr/bin/env bash
   set -euo pipefail
 
-  if ! "$({{k}} exec {{pod}} -- vault status -format=json 2>/dev/null || true | jq -r '.sealed')" = "true"; then
+  if ! $({{k}} exec {{pod}} -- vault status -format=json 2>/dev/null | jq '.sealed'); then
     echo 'Vault is unsealed already'
     exit
   fi
@@ -56,18 +56,17 @@ create-resources pod=`just pod`: wait-ready
   {{k}} exec {{pod}} -- sh -c '
     set -euo pipefail
 
-    vault secrets enable -path=secret/supabase kv-v2
-    vault secrets enable -path=secret/server kv-v2
-    vault secrets enable -path=secret/web kv-v2
+    vault secrets enable -path=secret kv-v2
 
     vault auth enable kubernetes
     vault write auth/kubernetes/config \
       kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
   '
 
-  cat ./policies/supabase.hcl | {{k}} exec --stdin=true {{pod}} -- vault policy write supabase -
-  cat ./policies/server.hcl | {{k}} exec --stdin=true {{pod}} -- vault policy write server -
-  cat ./policies/web.hcl | {{k}} exec --stdin=true {{pod}} -- vault policy write web -
+  for file in ./policies/*.hcl; do
+    policy_name=$(basename "$file" .hcl)
+    cat "$file" | {{k}} exec --stdin=true {{pod}} -- vault policy write "$policy_name" -
+  done
 
   {{k}} exec {{pod}} -- sh -c '
     set -euo pipefail
@@ -76,18 +75,21 @@ create-resources pod=`just pod`: wait-ready
       bound_service_account_names=service-account \
       bound_service_account_namespaces=supabase \
       policies=supabase \
+      audience=vault \
       ttl=24h
 
     vault write auth/kubernetes/role/server \
       bound_service_account_names=service-account \
       bound_service_account_namespaces=server \
       policies=server \
+      audience=vault \
       ttl=24h
 
     vault write auth/kubernetes/role/web \
       bound_service_account_names=service-account \
       bound_service_account_namespaces=web \
       policies=web \
+      audience=vault \
       ttl=24h
   '
 
@@ -108,25 +110,30 @@ write-secrets pod=`just pod`: wait-ready
     set -euo pipefail
 
     vault kv put secret/supabase/config \
-      anonKey=${supabase_anon_key} \
-      serviceKey=${supabase_service_key} \
-      secret=${supabase_secret}
+      anonKey='${supabase_anon_key}' \
+      serviceKey='${supabase_service_key}' \
+      secret='${supabase_secret}'
 
     vault kv put secret/supabase/database \
-      username=$SUPABASE_USERNAME \
-      password=$SUPABASE_PASSWORD
+      username='$SUPABASE_USERNAME' \
+      password='$SUPABASE_PASSWORD' \
+      database='postgres'
 
     vault kv put secret/supabase/smtp \
-      username=$SUPABASE_USERNAME \
-      password=$SUPABASE_PASSWORD
+      username='$SUPABASE_USERNAME' \
+      password='$SUPABASE_PASSWORD'
+
+    vault kv put secret/supabase/dashboard \
+      username='$SUPABASE_USERNAME' \
+      password='$SUPABASE_PASSWORD'
 
     vault kv put secret/server/config \
-      adminJwtSecret=${server_admin_jwt_secret} \
-      adminJwtRefreshSecret=${server_admin_jwt_refresh_secret} \
-      openaiApiKey=$OPENAI_API_KEY \
-      openaiBaseUrl=$OPENAI_BASE_URL \
-      vnpaySecureSecret=$VNPAY_SECURE_SECRET \
-      vnpayTmnCode=$VNPAY_TMN_CODE
+      adminJwtSecret='${server_admin_jwt_secret}' \
+      adminJwtRefreshSecret='${server_admin_jwt_refresh_secret}' \
+      openaiApiKey='$OPENAI_API_KEY' \
+      openaiBaseUrl='$OPENAI_BASE_URL' \
+      vnpaySecureSecret='$VNPAY_SECURE_SECRET' \
+      vnpayTmnCode='$VNPAY_TMN_CODE'
   "
 
 setup pod=`just pod`:

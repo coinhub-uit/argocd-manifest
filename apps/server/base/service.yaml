@@ -1,6 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.2-standalone-strict/service.json
 apiVersion: v1
 kind: Service
+metadata:
+  name: service
 spec:
   selector:
     app: coinhub

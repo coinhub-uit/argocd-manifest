@@ -42,3 +42,9 @@
    ```sh
    kubectl apply -k ./cluster/vault/
    ```
+
+---
+
+## References
+
+- <https://github.com/hashicorp-education/learn-vault-secrets-operator/blob/main/justfile>

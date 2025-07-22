@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./argocd
   - ./vault
+  - ./vault-secret-operator/

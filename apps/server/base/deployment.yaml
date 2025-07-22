@@ -27,5 +27,34 @@ spec:
           envFrom:
             - configMapRef:
                 name: config-map
-            - secretRef:
-                name: secret
+          env:
+            - name: ADMIN_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: adminJwtSecret
+                  name: secret
+            - name: ADMIN_JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: adminJwtRefreshSecret
+                  name: secret
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: openaiApiKey
+                  name: secret
+            - name: OPENAI_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: openaiBaseUrl
+                  name: secret
+            - name: VNPAY_SECURE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: vnpaySecureSecret
+                  name: secret
+            - name: VNPAY_TMN_CODE
+              valueFrom:
+                secretKeyRef:
+                  key: vnpayTmnCode
+                  name: secret

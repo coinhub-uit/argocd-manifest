@@ -1,0 +1,5 @@
+# Default value: https://github.com/hashicorp/vault-secrets-operator/blob/main/chart/values.yaml
+defaultVaultConnection:
+  enabled: true
+  address: "http://vault.vault.svc.cluster.local:8200"
+  skipTLSVerify: false

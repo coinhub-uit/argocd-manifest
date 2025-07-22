@@ -2,6 +2,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: supabase
+
 resources:
   - ./base/
-  - ./chart/helm.yaml
+
+helmCharts:
+  - releaseName: supabase
+    name: supabase
+    repo: https://tokens-studio.github.io/helm/
+    version: 1.0.0
+    namespace: supabase
+    valuesFile: ./value.yaml
+    valuesMerge: merge

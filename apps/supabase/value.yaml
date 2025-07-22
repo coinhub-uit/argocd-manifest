@@ -1,0 +1,18 @@
+secret:
+  jwt:
+    secretRef: secret-config
+  db:
+    secretRef: secret-database
+  smtp:
+    secretRef: secret-smtp
+  dashboard:
+    secretRef: secret-dashboard
+
+analytics:
+  enabled: false
+
+vector:
+  enabled: false
+
+storage:
+  enabled: false

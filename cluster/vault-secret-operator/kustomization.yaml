@@ -2,16 +2,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: vault
+namespace: vault-secrets-operator-system
 
 resources:
   - ./namespace.yaml
 
 helmCharts:
-  - releaseName: vault
-    name: vault
-    version: 0.30.0
-    namespace: vault
+  - releaseName: vault-secrets-operator
+    name: vault-secrets-operator
+    version: 0.10.0
+    namespace: vault-secrets-operator-system
     includeCRDs: true
     repo: https://helm.releases.hashicorp.com
-    valuesFile: ./values.yaml
+    valuesFile: ./value.yaml

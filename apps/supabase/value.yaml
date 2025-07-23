@@ -24,6 +24,7 @@ db:
     initialDelaySeconds: 3
 
 studio:
+  enabled: false
   image:
     # tag: 2025.07.21-sha-88dca02
     tag: 20240326-5e5586d

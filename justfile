@@ -1,7 +1,10 @@
-set dotenv-required
+mod vault "./justfiles/vault.just"
 
-mod cluster "./cluster/justfile"
-mod vault "./cluster/vault/justfile"
+set dotenv-required
+set dotenv-load
 
 default:
   @just --list
+
+setup-cluster:
+  kubectl kustomize --enable-helm ./cluster/ | kubectl apply -f -

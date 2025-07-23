@@ -8,11 +8,78 @@ secret:
   dashboard:
     secretRef: secret-dashboard
 
+db:
+  image:
+    repository: supabase/postgres
+    tag: 15.8.1.119
+    # repository: bitnami/postgres
+    # tag: 17.5.0
+  livenessProbe:
+    exec:
+      command:
+        - pg_isready
+        - -U
+        - postgres
+    initialDelaySeconds: 3
+
+studio:
+  image:
+    tag: 2025.07.21-sha-88dca02
+  environment:
+    STUDIO_DEFAULT_ORGANIZATION: "Coinhub"
+    STUDIO_DEFAULT_PROJECT: "Coinhub"
+    SUPABASE_REST_URL: http://api.localhost/rest/v1/
+    SUPABASE_PUBLIC_URL: http://example.com/
+    NEXT_PUBLIC_ENABLE_LOGS: "true"
+  livenessProbe:
+    httpGet:
+      path: /api/profile
+      port: 3000
+    initialDelaySeconds: 3
+
+auth:
+  image:
+    tag: v2.177.0
+
+rest:
+  image:
+    tag: v13.0.4
+
+realtime:
+  image:
+    tag: v2.41.6
+  livenessProbe:
+    httpGet:
+      path: /
+      port: 4000
+    initialDelaySeconds: 3
+
+meta:
+  image:
+    tag: v0.91.2
+
+storage:
+  enabled: false
+
+imgproxy:
+  image:
+    tag: v3.8.0
+  livenessProbe:
+    exec:
+      command:
+        - imgproxy
+        - health
+    initialDelaySeconds: 3
+
+kong:
+  enabled: false
+
 analytics:
   enabled: false
 
 vector:
   enabled: false
 
-storage:
-  enabled: false
+functions:
+  image:
+    tag: v1.68.1

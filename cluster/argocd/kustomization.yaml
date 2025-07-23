@@ -4,8 +4,15 @@ kind: Kustomization
 
 resources:
   - ./namespace.yaml
-  - ./config-map.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/ha/install.yaml
+
+helmCharts:
+  - releaseName: argo-cd
+    name: argo-cd
+    version: 8.1.4
+    namespace: argocd
+    includeCRDs: true
+    repo: oci://ghcr.io/argoproj/argo-helm
+    valuesFile: ./value.yaml
 
 images:
   - name: quay.io/argoproj/argocd

@@ -1,59 +1,51 @@
-set dotenv-load
-
 k := "kubectl --namespace=vault"
+secret_vault_json := "../secrets/vault.json"
 
 default:
   @just --list
 
-@pod:
-  {{k}} get pods -o jsonpath='{.items[0].metadata.name}'
+@wait-ready:
+  {{k}} wait --for=condition=Ready --timeout=1m pod/vault-0 &>/dev/null
 
-@root-token:
-  jq -r '.root_token' ../../secrets/vault.json
-
-[private]
-@wait-ready pod=`just pod`:
-  {{k}} wait --for=condition=Ready --timeout=1m pod/{{pod}} &>/dev/null
-
-init pod=`just pod`:
+init:
   #!/usr/bin/env bash
-  if {{k}} exec {{pod}} -- vault status -format=json | jq '.initialized'; then
-    {{k}} exec {{pod}} -- vault operator init -format=json > ../../secrets/vault.json
+  if {{k}} exec vault-0 -- vault status -format=json | jq '.initialized'; then
+    {{k}} exec vault-0 -- vault operator init -format=json > {{secret_vault_json}}
   fi
 
-login pod=`just pod`: wait-ready
-  {{k}} exec {{pod}} -- vault login $(just root-token)
+login: wait-ready
+  {{k}} exec vault-0 -- vault login $(jq -r '.root_token' {{secret_vault_json}})
 
-unseal pod=`just pod`:
+unseal:
   #!/usr/bin/env bash
   set -euo pipefail
 
-  if ! $({{k}} exec {{pod}} -- vault status -format=json 2>/dev/null | jq '.sealed'); then
+  if ! $({{k}} exec vault-0 -- vault status -format=json 2>/dev/null | jq '.sealed'); then
     echo 'Vault is unsealed already'
     exit
   fi
 
-  for key in $(jq -r '.unseal_keys_b64[:3][]' ../../secrets/vault.json); do
-    {{k}} exec {{pod}} -- vault operator unseal "$key"
+  for key in $(jq -r '.unseal_keys_b64[:3][]' {{secret_vault_json}}); do
+    {{k}} exec vault-0 -- vault operator unseal "$key"
   done
 
-set-userpass username password policies="supabase,server,web" pod=`just pod`: wait-ready
+set-userpass username password policies="supabase,server,web": wait-ready
   #!/usr/bin/env bash
   set -euo pipefail
 
   if ! kubectl exec vault-0 -- vault auth list -format=json | jq -e '."userpass/"' > /dev/null; then
-    {{k}} exec {{pod}} -- vault auth enable userpass
+    {{k}} exec vault-0 -- vault auth enable userpass
   fi
 
-  {{k}} exec {{pod}} -- vault write auth/userpass/users/{{username}} \
+  {{k}} exec vault-0 -- vault write auth/userpass/users/{{username}} \
     password={{password}} \
     policies={{policies}}
 
-create-resources pod=`just pod`: wait-ready
+create-resources: wait-ready
   #!/usr/bin/env bash
   set -euo pipefail
 
-  {{k}} exec {{pod}} -- sh -c '
+  {{k}} exec vault-0 -- sh -c '
     set -euo pipefail
 
     vault secrets enable -path=secret kv-v2
@@ -63,12 +55,12 @@ create-resources pod=`just pod`: wait-ready
       kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
   '
 
-  for file in ./policies/*.hcl; do
+  for file in ../cluster/vault/policies/*.hcl; do
     policy_name=$(basename "$file" .hcl)
-    cat "$file" | {{k}} exec --stdin=true {{pod}} -- vault policy write "$policy_name" -
+    cat "$file" | {{k}} exec --stdin=true vault-0 -- vault policy write "$policy_name" -
   done
 
-  {{k}} exec {{pod}} -- sh -c '
+  {{k}} exec vault-0 -- sh -c '
     set -euo pipefail
 
     vault write auth/kubernetes/role/supabase \
@@ -93,7 +85,7 @@ create-resources pod=`just pod`: wait-ready
       ttl=24h
   '
 
-write-secrets pod=`just pod`: wait-ready
+write-secrets: wait-ready
   #!/usr/bin/env bash
   set -euo pipefail
 
@@ -106,7 +98,7 @@ write-secrets pod=`just pod`: wait-ready
   server_admin_jwt_refresh_secret=$(openssl rand -base64 64)
   admin_auth_secret=$(openssl rand -base64 64)
 
-  {{k}} exec {{pod}} -- sh -c "
+  {{k}} exec vault-0 -- sh -c "
     set -euo pipefail
 
     vault kv put secret/supabase/config \
@@ -115,7 +107,7 @@ write-secrets pod=`just pod`: wait-ready
       secret='${supabase_secret}'
 
     vault kv put secret/supabase/database \
-      username='$SUPABASE_USERNAME' \
+      username='postgres' \
       password='$SUPABASE_PASSWORD' \
       database='postgres'
 
@@ -136,12 +128,4 @@ write-secrets pod=`just pod`: wait-ready
       vnpayTmnCode='$VNPAY_TMN_CODE'
   "
 
-setup pod=`just pod`:
-  #!/usr/bin/env bash
-  set -euo pipefail
-
-  just init {{pod}}
-  just unseal {{pod}}
-  just login {{pod}}
-  just create-resources {{pod}}
-  just write-secrets {{pod}}
+setup: init unseal login create-resources write-secrets

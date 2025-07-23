@@ -12,7 +12,8 @@ db:
   image:
     repository: supabase/postgres
     tag: 15.8.1.119
-    # repository: bitnami/postgres
+    # tag: 15.1.0.147
+    # repository: bitnami/postgresql
     # tag: 17.5.0
   livenessProbe:
     exec:
@@ -24,7 +25,8 @@ db:
 
 studio:
   image:
-    tag: 2025.07.21-sha-88dca02
+    # tag: 2025.07.21-sha-88dca02
+    tag: 20240326-5e5586d
   environment:
     STUDIO_DEFAULT_ORGANIZATION: "Coinhub"
     STUDIO_DEFAULT_PROJECT: "Coinhub"
@@ -39,15 +41,27 @@ studio:
 
 auth:
   image:
-    tag: v2.177.0
+    # tag: v2.177.0
+    tag: v2.143.0
+  environment:
+    API_EXTERNAL_URL: http://localhost
+    GOTRUE_SITE_URL: http://localhost
+    GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+    GOTRUE_MAILER_AUTOCONFIRM: "true"
+    GOTRUE_SMTP_ADMIN_EMAIL: "kevinnitro@localhost"
+    GOTRUE_SMTP_HOST: "smtp.localhost"
+    GOTRUE_SMTP_PORT: "587"
+    GOTRUE_SMTP_SENDER_NAME: "kevinnitro@localhost"
 
 rest:
   image:
-    tag: v13.0.4
+    # tag: v13.0.4
+    tag: v12.0.1
 
 realtime:
   image:
-    tag: v2.41.6
+    # tag: v2.41.6
+    tag: v2.27.5
   livenessProbe:
     httpGet:
       path: /
@@ -56,7 +70,8 @@ realtime:
 
 meta:
   image:
-    tag: v0.91.2
+    # tag: v0.91.2
+    tag: v0.80.0
 
 storage:
   enabled: false
@@ -82,4 +97,5 @@ vector:
 
 functions:
   image:
-    tag: v1.68.1
+    # tag: v1.68.1
+    tag: v1.41.2

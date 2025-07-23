@@ -1,3 +1,3 @@
-path "/secret/web/*" {
-  capabilities = ["read"]
+path "/secret/data/web/*" {
+  capabilities = ["read", "list"]
 }

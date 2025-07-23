@@ -107,7 +107,7 @@ write-secrets: wait-ready
       secret='${supabase_secret}'
 
     vault kv put secret/supabase/database \
-      username='postgres' \
+      username='supabase_admin' \
       password='$SUPABASE_PASSWORD' \
       database='postgres'
 

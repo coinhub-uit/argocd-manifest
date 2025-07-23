@@ -1,15 +1,15 @@
-path "secret/server/*" {
+path "secret/data/server/*" {
+  capabilities = ["read", "list"]
+}
+
+path "secret/data/supabase/config" {
   capabilities = ["read"]
 }
 
-path "secret/supabase/config" {
+path "secret/data/supabase/database" {
   capabilities = ["read"]
 }
 
-path "secret/supabase/database" {
-  capabilities = ["read"]
-}
-
-path "secret/web/*" {
+path "secret/data/web/config" {
   capabilities = ["read"]
 }

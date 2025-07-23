@@ -1,3 +1,3 @@
-path "secret/supabase/*" {
-  capabilities = ["read"]
+path "secret/data/supabase/*" {
+  capabilities = ["read", "list"]
 }

@@ -9,4 +9,4 @@ resources:
 
 images:
   - name: ghcr.io/coinhub-uit/server
-    newTag: "1752823330"
+    newTag: "1753356962"

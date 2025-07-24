@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.2-standalone-strict/deployment.json
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment
@@ -28,36 +28,61 @@ spec:
             - configMapRef:
                 name: config-map
           env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: secret-supabase-database
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: secret-supabase-database
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: secret-supabase-database
+            - name: SUPABASE_SERVICE_ROLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: serviceKey
+                  name: secret-supabase-config
+            - name: SUPABASE_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: secret
+                  name: secret-supabase-config
             - name: ADMIN_JWT_SECRET
               valueFrom:
                 secretKeyRef:
                   key: adminJwtSecret
-                  name: secret
+                  name: secret-server
             - name: ADMIN_JWT_REFRESH_SECRET
               valueFrom:
                 secretKeyRef:
                   key: adminJwtRefreshSecret
-                  name: secret
+                  name: secret-server
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
                   key: openaiApiKey
-                  name: secret
+                  name: secret-server
             - name: OPENAI_BASE_URL
               valueFrom:
                 secretKeyRef:
                   key: openaiBaseUrl
-                  name: secret
+                  name: secret-server
             - name: VNPAY_SECURE_SECRET
               valueFrom:
                 secretKeyRef:
                   key: vnpaySecureSecret
-                  name: secret
+                  name: secret-server
             - name: VNPAY_TMN_CODE
               valueFrom:
                 secretKeyRef:
                   key: vnpayTmnCode
-                  name: secret
+                  name: secret-server
           volumeMounts:
             - name: assets
               mountPath: /app/assets/uploads

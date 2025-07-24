@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.2-standalone-strict/deployment.json
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment

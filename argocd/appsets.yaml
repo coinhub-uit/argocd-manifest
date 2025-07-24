@@ -12,8 +12,8 @@ spec:
         revision: HEAD
         directories:
           - path: "apps/*"
-          - path: "apps/supabase" # Supabase helm doesn't work well
-            exclude: true
+          # - path: "apps/supabase"
+          #   exclude: true
   template:
     metadata:
       name: "{{.path.basename}}"
@@ -24,3 +24,11 @@ spec:
         path: "{{.path.path}}"
       destination:
         name: in-cluster
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - Prune=true
+      - ServerSideApply=true
+      - CreateNamespace=true

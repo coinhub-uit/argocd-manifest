@@ -5,7 +5,7 @@ metadata:
   name: service
 spec:
   selector:
-    app: coinhub
+    app: server
   ports:
     - targetPort: 3001
       port: 3001

@@ -6,12 +6,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: coinhub
+      app: server
   template:
     spec:
       containers:
-        - name: coinhub-server
-          image: coinhub-server
+        - name: server
+          image: server
           ports:
             - containerPort: 3001
           readinessProbe:

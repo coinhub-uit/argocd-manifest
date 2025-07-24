@@ -6,8 +6,7 @@ metadata:
 data:
   # FIXME: Later
   API_SERVER_URL: https://coinhub-server.kevinnitrohome.duckdns.org
-  # FIXME: Later
-  DB_HOST:
+  DB_HOST: http://supabase-supabase-db.supabase
   NODE_ENV: development
   OPENAI_MODEL: "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
   PORT: "3001"

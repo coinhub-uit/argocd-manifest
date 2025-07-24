@@ -11,8 +11,9 @@ secret:
 db:
   image:
     repository: supabase/postgres
-    tag: 15.8.1.119
+    # tag: 15.8.1.119
     # tag: 15.1.0.147
+    tag: "15.6.1.133"
     # repository: bitnami/postgresql
     # tag: 17.5.0
   livenessProbe:
@@ -27,7 +28,8 @@ studio:
   enabled: false
   image:
     # tag: 2025.07.21-sha-88dca02
-    tag: 20240326-5e5586d
+    # tag: 20240326-5e5586d
+    tag: "20241021-9f9b083"
   environment:
     STUDIO_DEFAULT_ORGANIZATION: "Coinhub"
     STUDIO_DEFAULT_PROJECT: "Coinhub"
@@ -43,7 +45,8 @@ studio:
 auth:
   image:
     # tag: v2.177.0
-    tag: v2.143.0
+    # tag: v2.143.0
+    tag: "v2.163.0"
   environment:
     API_EXTERNAL_URL: http://localhost
     GOTRUE_SITE_URL: http://localhost
@@ -57,12 +60,14 @@ auth:
 rest:
   image:
     # tag: v13.0.4
-    tag: v12.0.1
+    # tag: v12.0.1
+    tag: "v12.2.3"
 
 realtime:
   image:
     # tag: v2.41.6
     tag: v2.27.5
+    # tag: "v2.33.8"
   livenessProbe:
     httpGet:
       path: /
@@ -72,14 +77,16 @@ realtime:
 meta:
   image:
     # tag: v0.91.2
-    tag: v0.80.0
+    # tag: v0.80.0
+    tag: "v0.84.2"
 
 storage:
   enabled: false
 
 imgproxy:
   image:
-    tag: v3.8.0
+    # tag: v3.8.0
+    tag: "v3.26"
   livenessProbe:
     exec:
       command:
@@ -99,4 +106,5 @@ vector:
 functions:
   image:
     # tag: v1.68.1
-    tag: v1.41.2
+    # tag: v1.41.2
+    tag: "v1.59.0"

@@ -1,25 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: coinhub
+  name: coinhub-dev
   namespace: argocd
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
-        repoURL: https://github.com/coinhub-uit/argocd-manifest.git
+        repoURL: &repo https://github.com/coinhub-uit/argocd-manifest.git
         revision: HEAD
         directories:
-          - path: "apps/*"
-          # - path: "apps/supabase"
-          #   exclude: true
+          - path: "apps/*/overlays/dev"
   template:
     metadata:
-      name: "{{.path.basename}}"
+      name: "{{.path.basename}}-dev"
     spec:
       source:
-        repoURL: https://github.com/coinhub-uit/argocd-manifest.git
+        repoURL: *repo
         targetRevision: HEAD
         path: "{{.path.path}}"
       destination:

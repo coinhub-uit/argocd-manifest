@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: server
+          image: ghcr.io/coinhub-uit/server:latest
           ports:
             - containerPort: 3001
           readinessProbe:
@@ -58,3 +58,10 @@ spec:
                 secretKeyRef:
                   key: vnpayTmnCode
                   name: secret
+          volumeMounts:
+            - name: assets
+              mountPath: /app/assets/uploads
+      volumes:
+        - name: assets
+          persistentVolumeClaim:
+            claimName: pvc-assets

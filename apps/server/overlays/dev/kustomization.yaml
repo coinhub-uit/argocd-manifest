@@ -1,0 +1,12 @@
+# yaml-language-server: schema=https://www.schemastore.org/kustomization.json
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: supabase
+
+resources:
+  - ../../base/
+
+images:
+  - name: ghcr.io/coinhub-uit/server
+    newTag: "1752823330"

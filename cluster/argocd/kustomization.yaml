@@ -13,7 +13,3 @@ helmCharts:
     includeCRDs: true
     repo: oci://ghcr.io/argoproj/argo-helm
     valuesFile: ./value.yaml
-
-images:
-  - name: quay.io/argoproj/argocd
-    newTag: v3.0.11

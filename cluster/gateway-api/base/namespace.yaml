@@ -2,7 +2,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: server
-  labels:
-    coinhub-gateway: "true"
-    istio.io/dataplane-mode: ambient
+  name: gateway

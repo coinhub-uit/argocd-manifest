@@ -9,7 +9,7 @@ data:
   DB_HOST: supabase-supabase-db.supabase
   DB_PORT: "5432"
   SUPABASE_PROJECT_API_URL: http://supabase-supabase-rest.supabase:3000
-  NODE_ENV: development
+  NODE_ENV: production
   OPENAI_MODEL: "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
   PORT: "3001"
   UPLOAD_PATH: assets/uploads

@@ -8,6 +8,8 @@ spec:
     matchLabels:
       app: server
   template:
+    metadata:
+      name: pod
     spec:
       containers:
         - name: server

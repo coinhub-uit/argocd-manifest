@@ -12,6 +12,6 @@ resources:
   - ./service-account.yaml
   - ./vault-auth.yaml
   - ./vault-static-secret.yaml
-  # - ./persistent-volume-claim.yaml
+  - ./persistent-volume-claim.yaml
   - ./deployment.yaml
   - ./service.yaml

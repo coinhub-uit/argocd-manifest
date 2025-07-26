@@ -6,8 +6,10 @@ spec:
   parentRefs:
     - name: coinhub
       namespace: gateway
-  hostnames:
-    - "server.coinhub.kevinnitro.duckdns.org"
+      sectionName: server-http
+    - name: coinhub
+      namespace: gateway
+      sectionName: server-https
   rules:
     - matches:
         - path:

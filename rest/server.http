@@ -1,0 +1,6 @@
+### Get from local
+GET localhost:8080
+Host: server.coinhub.kevinnitro.duckdns.org
+
+### Get from local
+GET server.coinhub.kevinnitro.duckdns.org:8080

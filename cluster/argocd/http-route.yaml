@@ -6,15 +6,12 @@ spec:
   parentRefs:
     - name: coinhub
       namespace: gateway
-      sectionName: web-http
-    - name: coinhub
-      namespace: gateway
-      sectionName: web-https
+      sectionName: argo-cd-http
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: service
-          port: 3000
+        - name: argo-cd-argo-cd-server
+          port: 8080

@@ -5,4 +5,3 @@ metadata:
   name: web
   labels:
     istio.io/dataplane-mode: ambient
-    coinhub-web-gateway: "true"

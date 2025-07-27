@@ -5,6 +5,7 @@ metadata:
   namespace: gateway
   annotations:
     networking.istio.io/service-type: LoadBalancer # ClusterIP
+    cert-manager.io/cluster-issuer: coinhub-cluster-issuer
 spec:
   gatewayClassName: istio
   listeners:
@@ -14,47 +15,40 @@ spec:
       hostname: "server.coinhub.kevinnitro.duckdns.org"
       allowedRoutes:
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              coinhub-server-gateway: "true"
+          from: All
     - name: server-https
       port: 443
       protocol: HTTPS
       hostname: "server.coinhub.kevinnitro.duckdns.org"
       allowedRoutes:
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              coinhub-server-gateway: "true"
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: coinhub-kevinnitro-duckdns-tls
     - name: web-http
       port: 80
       protocol: HTTP
       hostname: "web.coinhub.kevinnitro.duckdns.org"
       allowedRoutes:
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              coinhub-web-gateway: "true"
+          from: All
     - name: web-https
       port: 443
       protocol: HTTPS
       hostname: "web.coinhub.kevinnitro.duckdns.org"
       allowedRoutes:
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              coinhub-web-gateway: "true"
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: coinhub-kevinnitro-duckdns-tls
     - name: argo-cd-http
       port: 80
       protocol: HTTP
       hostname: "argocd.coinhub.kevinnitro.duckdns.org"
       allowedRoutes:
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              argocd-gateway: "true"
+          from: All

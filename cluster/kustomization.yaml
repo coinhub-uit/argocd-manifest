@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ./gateway-api/
+  - ./cert-manager/
   - ./vault/
   - ./vault-secret-operator/
   # - ./istio/

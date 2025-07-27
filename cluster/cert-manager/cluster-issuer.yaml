@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: coinhub-cluster-issuer
+  namespace: cert-manager
+spec:
+  acme:
+    email: kevinnitro@duck.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-staging-coinhub-key
+      # name: letsencrypt-coinhub-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: coinhub
+                namespace: gateway

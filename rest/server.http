@@ -2,5 +2,13 @@
 GET localhost:8080
 Host: server.coinhub.kevinnitro.duckdns.org
 
-### Get from local
+### Get from duckdns
 GET server.coinhub.kevinnitro.duckdns.org:8080
+
+### Get from local tls
+GET localhost:443
+Host: server.coinhub.kevinnitro.duckdns.org
+
+### Get from duckdns tls
+GET localhost:4473
+Host: server.coinhub.kevinnitro.duckdns.org

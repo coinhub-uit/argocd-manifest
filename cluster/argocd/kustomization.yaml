@@ -11,7 +11,7 @@ resources:
 helmCharts:
   - releaseName: argo-cd
     name: argo-cd
-    version: 8.1.4
+    version: 8.2.3
     namespace: argocd
     includeCRDs: true
     repo: oci://ghcr.io/argoproj/argo-helm

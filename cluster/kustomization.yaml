@@ -7,5 +7,5 @@ resources:
   - ./cert-manager/
   - ./vault/
   - ./vault-secret-operator/
-  # - ./istio/
+  - ./istio/
   - ./argocd/

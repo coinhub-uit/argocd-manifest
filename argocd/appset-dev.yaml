@@ -14,19 +14,20 @@ spec:
           - path: "apps/*/overlays/dev"
   template:
     metadata:
-      name: "{{.path.basename}}-dev"
+      name: "{{index .path.segments 1}}-dev"
     spec:
+      project: default # This is required idk ohm
       source:
         repoURL: *repo
         targetRevision: HEAD
         path: "{{.path.path}}"
       destination:
         name: in-cluster
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: false
-    syncOptions:
-      - Prune=true
-      - ServerSideApply=true
-      - CreateNamespace=true
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: false
+        syncOptions:
+          - Prune=true
+          - ServerSideApply=true
+          - CreateNamespace=true

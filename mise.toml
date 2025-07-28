@@ -1,6 +1,7 @@
 [tools]
 argocd = "latest"
 helm = "latest"
+istioctl = "latest"
 jq = "latest"
 jwt = "latest"
 kubectl = "latest"

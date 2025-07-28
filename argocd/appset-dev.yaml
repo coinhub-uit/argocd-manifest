@@ -31,3 +31,5 @@ spec:
           - Prune=true
           - ServerSideApply=true
           - CreateNamespace=true
+        retry:
+          limit: 5

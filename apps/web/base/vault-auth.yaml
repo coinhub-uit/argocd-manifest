@@ -6,7 +6,7 @@ spec:
   method: kubernetes
   mount: kubernetes
   kubernetes:
-    role: server
+    role: web
     serviceAccount: service-account
     audiences:
       - vault

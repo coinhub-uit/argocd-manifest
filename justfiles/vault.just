@@ -91,12 +91,12 @@ write-secrets: wait-ready
 
   supabase_anon_payload='{"iss":"supabase-demo","role":"anon","exp":1983812996}'
   supabase_service_payload='{"iss":"supabase-demo","role":"service_role","exp":1983812996}'
-  supabase_secret=$(openssl rand -base64 64)
+  supabase_secret=$(openssl rand -base64 32)
   supabase_anon_key=$(jwt encode -S "${supabase_secret}" "${supabase_anon_payload}")
   supabase_service_key=$(jwt encode -S "${supabase_secret}" "${supabase_service_payload}")
-  server_admin_jwt_secret=$(openssl rand -base64 64)
-  server_admin_jwt_refresh_secret=$(openssl rand -base64 64)
-  admin_auth_secret=$(openssl rand -base64 64)
+  server_admin_jwt_secret=$(openssl rand -base64 32)
+  server_admin_jwt_refresh_secret=$(openssl rand -base64 32)
+  admin_auth_secret=$(openssl rand -base64 32)
 
   {{k}} exec vault-0 -- sh -c "
     set -euo pipefail
@@ -126,6 +126,9 @@ write-secrets: wait-ready
       openaiBaseUrl='$OPENAI_BASE_URL' \
       vnpaySecureSecret='$VNPAY_SECURE_SECRET' \
       vnpayTmnCode='$VNPAY_TMN_CODE'
+
+    vault kv put secret/web/config \
+      authSecret='${admin_auth_secret}'
   "
 
 setup: init unseal login create-resources write-secrets

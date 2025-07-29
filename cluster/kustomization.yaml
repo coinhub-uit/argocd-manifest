@@ -8,4 +8,5 @@ resources:
   - ./vault/
   - ./vault-secret-operator/
   - ./istio/
+  - ./istio-integrations/
   - ./argocd/

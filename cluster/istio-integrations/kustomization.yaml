@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://www.schemastore.org/kustomization.json
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: istio-system
+
+resources:
+  - https://github.com/istio/istio/raw/refs/tags/1.26.2/samples/addons/prometheus.yaml
+  # - https://github.com/istio/istio/raw/refs/tags/1.26.2/samples/addons/extras/prometheus-operator.yaml
+  - https://github.com/istio/istio/raw/refs/tags/1.26.2/samples/addons/grafana.yaml
+  - https://github.com/istio/istio/raw/refs/tags/1.26.2/samples/addons/kiali.yaml
+  - https://github.com/istio/istio/raw/refs/tags/1.26.2/samples/addons/loki.yaml

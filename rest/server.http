@@ -10,5 +10,4 @@ GET localhost:443
 Host: server.coinhub.kevinnitro.duckdns.org
 
 ### Get from duckdns tls
-GET localhost:4473
-Host: server.coinhub.kevinnitro.duckdns.org
+GET server.coinhub.kevinnitro.duckdns.org:4473

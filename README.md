@@ -34,11 +34,16 @@
 
 ### Setup
 
-1. Setup argocd if not yet:
+1. Create cluster:
+   - Minikube:
+     ```sh
+     minikube start --cpus 4 --memory 12000 --cni calico
+     ```
+2. Setup argocd if not yet:
    ```sh
    kubectl apply -k ./cluster/argocd/
    ```
-2. Setup vault if not yet:
+3. Setup vault if not yet:
    ```sh
    kubectl apply -k ./cluster/vault/
    ```
